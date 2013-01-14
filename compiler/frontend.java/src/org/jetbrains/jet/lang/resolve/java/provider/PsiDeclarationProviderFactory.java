@@ -21,8 +21,6 @@ import com.intellij.psi.PsiPackage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jet.lang.resolve.java.PsiClassFinder;
 
-import javax.inject.Inject;
-
 public final class PsiDeclarationProviderFactory {
     @NotNull private final PsiClassFinder psiClassFinder;
 
@@ -43,7 +41,7 @@ public final class PsiDeclarationProviderFactory {
     @NotNull
     public KotlinNamespacePsiDeclarationProvider createDeclarationForKotlinNamespace(
             @NotNull PsiPackage psiPackage, @NotNull PsiClass psiClass) {
-        return new KotlinNamespacePsiDeclarationProvider(psiPackage, psiClass, this, psiClassFinder);
+        return new KotlinNamespacePsiDeclarationProvider(psiPackage, psiClass, psiClassFinder);
     }
 
     @NotNull
