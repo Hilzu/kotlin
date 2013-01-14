@@ -35,7 +35,6 @@ import org.jetbrains.jet.plugin.JetFileType;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -135,10 +134,21 @@ public class PsiClassFinderImpl implements PsiClassFinder {
     @NotNull
     @Override
     public List<PsiClass> findClasses(@NotNull PsiPackage psiPackage) {
+        // return Arrays.asList(psiPackage.getClasses());
+        return filterDuplicateClasses(psiPackage.getClasses());
+    }
+
+    @NotNull
+    @Override
+    public List<PsiClass> findInnerClasses(@NotNull PsiClass psiClass) {
+        return filterDuplicateClasses(psiClass.getInnerClasses());
+    }
+
+    private static List<PsiClass> filterDuplicateClasses(PsiClass[] classes) {
         Set<String> addedQualifiedNames = Sets.newHashSet();
         List<PsiClass> filteredClasses = Lists.newArrayList();
 
-        for (PsiClass aClass : psiPackage.getClasses()) {
+        for (PsiClass aClass : classes) {
             String qualifiedName = aClass.getQualifiedName();
 
             if (!addedQualifiedNames.contains(qualifiedName)) {
@@ -151,12 +161,5 @@ public class PsiClassFinderImpl implements PsiClassFinder {
         }
 
         return filteredClasses;
-    }
-
-    @NotNull
-    @Override
-    public List<PsiClass> findInnerClasses(@NotNull PsiClass psiClass) {
-        // TODO: Remove duplicates
-        return Arrays.asList(psiClass.getInnerClasses());
     }
 }

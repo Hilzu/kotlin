@@ -1,0 +1,7 @@
+package testing
+
+class TestTop {
+    class object {
+        public object InnerObject
+    }
+}
